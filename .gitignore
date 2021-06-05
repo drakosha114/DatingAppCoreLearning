@@ -453,3 +453,8 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 /API/appsettings.json
+
+
+API/datingapp.db
+API/datingapp.db-shm
+API/datingapp.db-wal
