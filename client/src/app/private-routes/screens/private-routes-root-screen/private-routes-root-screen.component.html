@@ -1,0 +1,8 @@
+<app-l-screen>
+  <app-layout-content>
+    <button type="button" (click)="loadUsers()">Load users</button>
+    <div *ngIf="users">{{users | json}}</div>
+    <div *ngIf="error">{{error | json}}</div>
+    <router-outlet></router-outlet>
+  </app-layout-content>
+</app-l-screen>
