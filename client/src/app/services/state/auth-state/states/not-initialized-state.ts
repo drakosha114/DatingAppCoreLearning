@@ -3,6 +3,8 @@ import {BaseAuthState} from "./bace-auth-state";
 import {AuthState} from "../auth-state";
 import {IExecutableCommand} from "../../../../global";
 import {IAuthEntity} from "../interfaces/i-auth-entity";
+import {Observable, of} from "rxjs";
+import {switchMap, catchError} from "rxjs/operators";
 
 export class NotInitializedState extends BaseAuthState implements IAuthState {
 
@@ -10,15 +12,21 @@ export class NotInitializedState extends BaseAuthState implements IAuthState {
     super(authState);
   }
 
-  // todo - instead void promise should be returned???
-  init(initAuthStateCommand: IExecutableCommand<IAuthEntity | null>): void {
-    initAuthStateCommand.execute().subscribe((authEntity: IAuthEntity | null) => {
-      const { user, token } = authEntity || {};
-      if (user && token) {
-        this.setLoggedInState(token, user);
-      } else {
+  init(initAuthStateCommand: IExecutableCommand<IAuthEntity | null>): Observable<boolean> {
+    return initAuthStateCommand.execute().pipe(
+      switchMap( (authEntity: IAuthEntity | null) => {
+        const { user, token } = authEntity || {};
+        if (user && token) {
+          this.setLoggedInState(token, user);
+        } else {
+          this.setNotLoggedInState();
+        }
+        return of(true);
+      }),
+      catchError(_ => {
         this.setNotLoggedInState();
-      }
-    });
+        return of(false);
+      })
+    )
   }
 }

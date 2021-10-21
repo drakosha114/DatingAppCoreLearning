@@ -1,30 +1,30 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LScreenComponent } from './l-screen/l-screen.component';
-import { LayoutHeaderComponent } from './layout-header/layout-header.component';
-import { LayoutContentComponent } from './layout-content/layout-content.component';
-import { LayoutFooterComponent } from './layout-footer/layout-footer.component';
-import { LayoutContainerComponent } from './layout-container/layout-container.component';
-
-
+import { HeaderDirective } from './directives/header.directive';
+import { FooterDirective } from './directives/footer.directive';
+import { ScreenComponent } from './components/screen/screen.component';
+import { ContentComponent } from './components/content/content.component';
+import { MainContentDirective } from './directives/main-content.directive';
+import {BootstrapGridModule} from "../bootstrap-extends/bootstrap-grid/bootstrap-grid.module";
 
 @NgModule({
   declarations: [
-    LScreenComponent,
-    LayoutHeaderComponent,
-    LayoutContentComponent,
-    LayoutFooterComponent,
-    LayoutContainerComponent
+    HeaderDirective,
+    FooterDirective,
+    ScreenComponent,
+    ContentComponent,
+    MainContentDirective
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    BootstrapGridModule
   ],
   exports: [
-    LScreenComponent,
-    LayoutHeaderComponent,
-    LayoutContentComponent,
-    LayoutFooterComponent,
-    LayoutContainerComponent
+    HeaderDirective,
+    FooterDirective,
+    ScreenComponent,
+    ContentComponent,
+    MainContentDirective
   ]
 })
 export class LayoutModule { }

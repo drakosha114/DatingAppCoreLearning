@@ -38,11 +38,10 @@ const routes: Routes = [{
       redirectTo: 'members',
       pathMatch: 'full'
     },
-/*    {
-      path: '**',
+    {
+      path: 'page-not-found',
       component: PageNotFoundScreenComponent,
-      pathMatch: 'full'
-    }*/
+    }
   ]}
 ];
 

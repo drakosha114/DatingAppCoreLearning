@@ -13,7 +13,6 @@ export class GuardCheckHandlerClass extends ValueTransformerClass<boolean, boole
   }
 
   protected valueTransformer(value: boolean): boolean | UrlTree {
-   console.log(value);
     return value || this.router.parseUrl(this.checkFailedRedirectUrl);
   }
 

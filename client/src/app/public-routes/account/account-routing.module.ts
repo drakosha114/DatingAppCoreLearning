@@ -14,6 +14,11 @@ const routes: Routes = [
     }, {
       path: 'register',
       component: AccountRegisterScreenComponent
+    },
+    {
+      path: '',
+      pathMatch: 'full',
+      redirectTo: 'login'
     }]
   }];
 

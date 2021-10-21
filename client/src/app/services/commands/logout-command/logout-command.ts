@@ -1,15 +1,21 @@
-import {ICommand} from "../../../global";
-import {Router} from "@angular/router";
+import {IExecutableCommand} from "../../../global";
+import {Observable, of, Subject} from "rxjs";
+import {takeUntil} from "rxjs/operators";
 
-export class LogoutCommand implements ICommand{
+export class LogoutCommand implements IExecutableCommand<boolean>{
 
-  constructor(private router: Router, private storage: Storage) {
+  private sbj$ = new Subject();
+
+  constructor(private readonly clearAccountStorageCommand: IExecutableCommand<boolean>) {
   }
 
-  execute(): void {
-
+  execute(): Observable<boolean>{
+    return this.clearAccountStorageCommand.execute().pipe(takeUntil(this.sbj$));
   }
 
   reset(): void {
+    this.sbj$.next(false);
+    this.sbj$.complete();
+    this.clearAccountStorageCommand.reset();
   }
 }

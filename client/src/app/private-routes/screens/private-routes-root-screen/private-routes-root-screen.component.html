@@ -1,8 +1,15 @@
-<app-l-screen>
-  <app-layout-content>
-    <button type="button" (click)="loadUsers()">Load users</button>
-    <div *ngIf="users">{{users | json}}</div>
-    <div *ngIf="error">{{error | json}}</div>
+<l-screen>
+  <header lHeader>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <div bExContainer bExContainerType="xl">
+        <a class="navbar-brand" routerLink="/">Dating App</a>
+        <div class="d-flex">
+          <button class="btn btn-light" type="submit" (click)="logoutClickHandler()">LogOut</button>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <l-content contentContainerSize="xl">
     <router-outlet></router-outlet>
-  </app-layout-content>
-</app-l-screen>
+  </l-content>
+</l-screen>

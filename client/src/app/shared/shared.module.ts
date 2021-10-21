@@ -5,6 +5,7 @@ import { HttpClientModule } from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { FormssModule } from './forms/forms.module';
+import { BootstrapExtendsModule } from './bootstrap-extends/bootstrap-extends.module';
 
 @NgModule({
   declarations: [],
@@ -15,7 +16,8 @@ import { FormssModule } from './forms/forms.module';
     LayoutModule,
     NgbModule,
     FormsModule,
-    FormssModule
+    FormssModule,
+    BootstrapExtendsModule
   ],
   exports: [
     LayoutModule,
@@ -26,6 +28,7 @@ import { FormssModule } from './forms/forms.module';
     NgbModule,
     FormssModule,
     FormsModule,
+    BootstrapExtendsModule
   ]
 })
 export class SharedModule { }

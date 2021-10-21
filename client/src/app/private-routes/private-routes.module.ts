@@ -6,6 +6,9 @@ import { PrivateRoutesRootScreenComponent } from './screens/private-routes-root-
 import {SharedModule} from "../shared/shared.module";
 import {ServicesModule} from "../services/services.module";
 import { PageNotFoundScreenComponent } from './screens/page-not-found-screen/page-not-found-screen.component';
+import {AppFacadeService} from "./services";
+import {AuthState} from "../services/state";
+import {GlobalCommandFactory} from "../services/commands";
 
 @NgModule({
   declarations: [
@@ -19,7 +22,7 @@ import { PageNotFoundScreenComponent } from './screens/page-not-found-screen/pag
     ServicesModule.forFeature()
   ],
   providers: [
-
+    { provide: AppFacadeService, useClass: AppFacadeService, deps: [AuthState, GlobalCommandFactory]}
   ]
 })
 export class PrivateRoutesModule { }

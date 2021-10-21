@@ -7,4 +7,7 @@ export class ProcessingErrorState extends StartProcessingState {
     super(authState);
   }
 
+  reset() {
+    this.setNotLoggedInState();
+  }
 }

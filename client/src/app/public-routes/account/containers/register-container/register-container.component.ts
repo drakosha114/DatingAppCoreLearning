@@ -1,9 +1,7 @@
-import {Component, Injector, OnInit} from '@angular/core';
-import {AccountFacadeService} from "../../services/account-facade.service";
-import {REGISTER_COMMAND_TOKEN} from "../../commands/register-command";
-import {IExecutableCommand} from "../../../../global";
-import {IAccountResponse, IRegisterPayload} from "../../../../services/interfaces";
+import {Component, Injector} from '@angular/core';
+import {IRegisterPayload} from "../../../../services/interfaces";
 import {AccountContainerBase} from "../../classes/account-container-base";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register-container',
@@ -12,12 +10,12 @@ import {AccountContainerBase} from "../../classes/account-container-base";
 })
 export class RegisterContainerComponent extends AccountContainerBase {
 
-  constructor(injector: Injector) {
+  constructor(injector: Injector, private router: Router) {
     super(injector);
   }
 
   formSubmitHandler(registerPayload: IRegisterPayload): void {
-    this.register(registerPayload);
+    this.register(registerPayload, () => this.router.navigate(['']).then(() => {}));
   }
 }
 

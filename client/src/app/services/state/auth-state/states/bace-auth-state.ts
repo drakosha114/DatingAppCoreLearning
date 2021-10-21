@@ -1,31 +1,31 @@
 import {AuthState} from "../auth-state";
 import {IAuthState} from "../interfaces/i-auth-state";
-import {IAccountResponse, ILoginPayload, IRegisterPayload} from "../../../interfaces";
+import {ILoginPayload, IRegisterPayload} from "../../../interfaces";
 import {IAuthEntity} from "../interfaces/i-auth-entity";
-import {ICommand, IEntityBase, IExecutableCommand} from "../../../../global";
+import {IEntityBase, IExecutableCommand} from "../../../../global";
+import {Observable, of, throwError} from "rxjs";
 
 export class BaseAuthState implements IAuthState{
   constructor(protected state: AuthState) {
   }
 
-  init(initAuthStateCommand: IExecutableCommand<IAuthEntity | null>): void {
+  init(initAuthStateCommand: IExecutableCommand<IAuthEntity | null>): Observable<boolean>{
+    return of(true);
   }
 
-  login(payload: ILoginPayload, loginCommand: IExecutableCommand<IAccountResponse>, onSuccessRedirectCommand: ICommand): void {
+  login(payload: ILoginPayload, loginCommand: IExecutableCommand<IAuthEntity>): Observable<IAuthEntity> {
+    return throwError('Login or password incorrect');
   }
 
-  logout(logoutCommand:ICommand): void {
+  logout(logoutCommand:IExecutableCommand<boolean>): Observable<boolean> {
+    return throwError('You not logged in');
   }
 
-  register(payload: IRegisterPayload, registerCommand: IExecutableCommand<IAccountResponse>, onSuccessRedirectCommand: ICommand): void {
+  register(payload: IRegisterPayload, registerCommand: IExecutableCommand<IAuthEntity>): Observable<IAuthEntity> {
+    return throwError('Login or password incorrect');
   }
 
   reset(): void {
-  }
-
-  protected deleteAuthSTateData(): void {
-    this.state.storageProvider.removeItem('token');
-    this.state.storageProvider.removeItem('user');
   }
 
   protected setProcessingState() {

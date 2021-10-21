@@ -1,29 +1,26 @@
-import {IExecutableCommand, IStoreService, StoreClass} from "../../../../global";
-import {IAccountResponse, ILoginPayload} from "../../../../services/interfaces";
-import {Observable, of, Subject} from "rxjs";
+import {IExecutableCommand} from "../../../../global";
+import {ILoginPayload} from "../../../../services/interfaces";
+import {Observable, Subject} from "rxjs";
 import {IAccountApi} from "../../interfaces/i-account-api";
-import {takeUntil, tap} from "rxjs/operators";
+import {map, takeUntil} from "rxjs/operators";
+import {IAuthEntity} from "../../../../services/state/auth-state/interfaces/i-auth-entity";
 
-export class LoginCommand implements IExecutableCommand<IAccountResponse>{
+export class LoginCommand implements IExecutableCommand<IAuthEntity>{
 
   private stop$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private accountApi: IAccountApi, private storage: IStoreService) {
+  constructor(private accountApi: IAccountApi) {
   }
 
-  execute(data: ILoginPayload): Observable<IAccountResponse> {
+  execute(data: ILoginPayload): Observable<IAuthEntity> {
     return this.accountApi.login(data).pipe(
       takeUntil(this.stop$),
-      tap((resp) => {
-        const { userName, token } = resp;
-        this.storage.setItem('token', token);
-        this.storage.setItem('user', JSON.stringify({userName: userName}));
-      })
+      // TODO AccountEntity DTO
+      map(resp => ({token: resp.token, user: {name: resp.userName}}))
     );
   }
 
   reset(): void {
-    debugger;
     this.stop$.next(true);
     this.stop$.complete();
   }

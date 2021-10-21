@@ -8,6 +8,10 @@ import { LoginContainerComponent } from './containers/login-container/login-cont
 import { RegisterContainerComponent } from './containers/register-container/register-container.component';
 import {LoginFormComponent} from "./components/login-form/login-form.component";
 import {RegisterFormComponent} from "./components/register-form/register-form.component";
+import {AccountApiService} from "./services/account-api.service";
+import {AccountFacadeService} from "./services/account-facade.service";
+import {AccountCommandsFactories} from "./commands/account-commands-factories";
+import {GlobalCommandFactory} from "../../services/commands";
 
 @NgModule({
   declarations: [
@@ -22,6 +26,11 @@ import {RegisterFormComponent} from "./components/register-form/register-form.co
   imports: [
     AccountRoutingModule,
     SharedModule,
+  ],
+  providers: [
+    AccountApiService,
+    AccountFacadeService,
+    { provide: AccountCommandsFactories, useClass: AccountCommandsFactories, deps: [GlobalCommandFactory, AccountApiService]},
   ]
 })
 export class AccountModule { }

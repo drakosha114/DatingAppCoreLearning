@@ -1,8 +1,9 @@
 import {BaseAuthState} from "./bace-auth-state";
 import {AuthState} from "../auth-state";
-import {IAccountResponse, ILoginPayload, IRegisterPayload} from "../../../interfaces";
-import {Observable} from "rxjs";
-import {ICommand, IExecutableCommand} from "../../../../global";
+import {ILoginPayload, IRegisterPayload} from "../../../interfaces";
+import {IExecutableCommand} from "../../../../global";
+import {Observable, throwError} from "rxjs";
+import {catchError, tap} from "rxjs/operators";
 import {IAuthEntity} from "../interfaces/i-auth-entity";
 
 export class StartProcessingState extends BaseAuthState {
@@ -10,29 +11,24 @@ export class StartProcessingState extends BaseAuthState {
     super(state);
   }
 
-  login(payload: ILoginPayload, loginCommand: IExecutableCommand<IAccountResponse>, onSuccessRedirectCommand: ICommand) {
+  login(payload: ILoginPayload, loginCommand: IExecutableCommand<IAuthEntity>): Observable<IAuthEntity> {
+    return this.startProcessingAction(payload, loginCommand);
+  }
+
+  register(payload: IRegisterPayload, registerCommand: IExecutableCommand<IAuthEntity>): Observable<IAuthEntity> {
+    return this.startProcessingAction(payload, registerCommand);
+  }
+
+  private startProcessingAction(payload: IRegisterPayload, command: IExecutableCommand<IAuthEntity>): Observable<IAuthEntity> {
     this.setProcessingState();
-    this.state.command = loginCommand;
-    loginCommand.execute(payload).subscribe((resp: IAccountResponse) => {
-      this.state.command = null;
-      const { token, userName} = resp;
-      this.actionSuccessCallback(token, {userName});
-      onSuccessRedirectCommand.execute();
-    }, (error) => {
-      this.actionErrorCallback(error);
-    });
-  }
-
-  register(payload: IRegisterPayload, registerCommand: IExecutableCommand<IAccountResponse>, onSuccessRedirectCommand: ICommand) {
-    // this.startProcessingAction(request, onSuccessCallback);
-  }
-
-  private actionSuccessCallback(token: string, user: any) {
-    this.setLoggedInState(token, user);
-  }
-
-  private actionErrorCallback(error: any) {
-    this.setErrorState(error);
+    this.state.command = command;
+    return command.execute(payload).pipe(
+      tap((resp: IAuthEntity) => this.setLoggedInState(resp.token, {...resp.user})),
+      catchError( (err: any) => {
+        this.setErrorState(err);
+        return throwError(err);
+      })
+    );
   }
 
 }

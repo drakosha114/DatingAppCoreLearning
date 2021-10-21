@@ -1,8 +1,8 @@
 import {IAuthState} from "./interfaces/i-auth-state";
 import {IAuthEntity} from "./interfaces/i-auth-entity";
-import {IAuthService, ICommand, IEntityBase, IExecutableCommand, IStoreBase, IStoreService} from "../../../global";
-import {IAccountResponse, ILoginPayload, IRegisterPayload} from "../../interfaces";
-import {BehaviorSubject, Observable} from "rxjs";
+import {IAuthService, IEntityBase, IExecutableCommand, IStoreBase} from "../../../global";
+import {ILoginPayload, IRegisterPayload} from "../../interfaces";
+import {BehaviorSubject, Observable, of, throwError} from "rxjs";
 import {NotInitializedState} from "./states/not-initialized-state";
 import {NotLoggedInState} from "./states/not-logged-in-state";
 import {ProcessingState} from "./states/processing-state";
@@ -30,7 +30,7 @@ export class AuthState implements IAuthState, IStoreBase<IAuthEntity>, IAuthServ
 
   public state: IAuthState | null = null;
 
-  constructor(public readonly storageProvider: IStoreService) {
+  constructor() {
     this.notInitializedState = new NotInitializedState(this);
     this.notLoggedInState = new NotLoggedInState(this);
     this.processingState = new ProcessingState(this);
@@ -40,20 +40,20 @@ export class AuthState implements IAuthState, IStoreBase<IAuthEntity>, IAuthServ
     this.state = this.notInitializedState;
   }
 
-  init(initAuthStateCommand: IExecutableCommand<IAuthEntity | null>): void {
-    this.state?.init(initAuthStateCommand);
+  init(initAuthStateCommand: IExecutableCommand<IAuthEntity | null>): Observable<boolean> {
+    return this.state?.init(initAuthStateCommand) || of(false);
   }
 
-  login(payload: ILoginPayload, loginCommand: IExecutableCommand<IAccountResponse>, onSuccessRedirectCommand: ICommand): void {
-    this.state?.login(payload, loginCommand, onSuccessRedirectCommand);
+  login(payload: ILoginPayload, loginCommand: IExecutableCommand<IAuthEntity>): Observable<IAuthEntity> {
+    return this.state?.login(payload, loginCommand) || throwError('Login or password incorrect');
   }
 
-  logout(logoutCommand:ICommand): void {
-    this.state?.logout(logoutCommand);
+  logout(logoutCommand:IExecutableCommand<boolean>): Observable<boolean> {
+    return this.state?.logout(logoutCommand) || throwError('You not logged in');
   }
 
-  register(payload: IRegisterPayload, registerCommand: IExecutableCommand<IAccountResponse>, onSuccessRedirectCommand: ICommand): void {
-    this.state?.register(payload, registerCommand, onSuccessRedirectCommand);
+  register(payload: IRegisterPayload, registerCommand: IExecutableCommand<IAuthEntity>): Observable<IAuthEntity> {
+    return this.state?.register(payload, registerCommand) || throwError('Login or password incorrect');
   }
 
   reset(): void {

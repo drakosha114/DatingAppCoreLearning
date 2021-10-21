@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {AppFacadeService} from "../../services";
+import {Router} from "@angular/router";
 
 @Component({
   templateUrl: './private-routes-root-screen.component.html',
@@ -7,19 +8,19 @@ import {HttpClient} from "@angular/common/http";
 })
 export class PrivateRoutesRootScreenComponent implements OnInit {
 
-  users: any = null;
-  error: any = null;
-  constructor(private httpClient: HttpClient) { }
-
-  ngOnInit(): void {
-
+  constructor(
+    private appFacadeProvider: AppFacadeService,
+    private router: Router) {
   }
 
-  loadUsers(): void {
-    this.httpClient.get('https://localhost:44310/api/Users').subscribe((resp) => {
-      this.users = resp;
-    }, error => {
-      this.error = error;
-    })
+  ngOnInit(): void {
+  }
+
+  public logoutClickHandler(): void {
+    this.appFacadeProvider.logout(() => this.redirectToPublicRoute());
+  }
+
+  private redirectToPublicRoute(): void {
+    this.router.navigate(['/welcome']).then();
   }
 }

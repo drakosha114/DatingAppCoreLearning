@@ -23,7 +23,11 @@ const routes: Routes = [{
     path: '',
     redirectTo: 'members',
     pathMatch: 'full'
-  }];
+  }, {
+    path: '**',
+    pathMatch: 'full',
+    redirectTo: 'page-not-found'
+}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

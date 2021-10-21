@@ -1,10 +1,14 @@
-<h1>Account</h1>
-<ul>
-  <li>
-    <a [routerLink]="['/account/login']">account</a>
-  </li>
-  <li>
-    <a [routerLink]="['/account/register']">register</a>
-  </li>
-</ul>
-<router-outlet></router-outlet>
+<div bExContainer bExContainerType="sm">
+  <ul class="nav nav-pills justify-content-center">
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/account/login']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
+false}">Login</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/account/register']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
+false}">Register</a>
+    </li>
+  </ul>
+  <router-outlet></router-outlet>
+</div>
+
