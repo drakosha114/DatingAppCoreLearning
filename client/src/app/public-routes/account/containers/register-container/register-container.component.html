@@ -1,0 +1,5 @@
+<app-register-form
+  [hasProcessed]="isLoading$ | async"
+  [error]="processingError$ | async"
+  (formSubmit)="formSubmitHandler($event)"
+></app-register-form>

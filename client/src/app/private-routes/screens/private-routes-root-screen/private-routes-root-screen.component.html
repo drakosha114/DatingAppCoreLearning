@@ -1,0 +1,15 @@
+<l-screen>
+  <header lHeader>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <div bExContainer bExContainerType="xl">
+        <a class="navbar-brand" routerLink="/">Dating App</a>
+        <div class="d-flex">
+          <button class="btn btn-light" type="submit" (click)="logoutClickHandler()">LogOut</button>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <l-content contentContainerSize="xl">
+    <router-outlet></router-outlet>
+  </l-content>
+</l-screen>

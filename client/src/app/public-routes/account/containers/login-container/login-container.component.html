@@ -1,0 +1,5 @@
+<app-login-form
+  [hasProcessed]="isLoading$ | async"
+  [error]="processingError$ | async"
+  (formSubmit)="formSubmitHandler($event)">
+</app-login-form>
