@@ -1,0 +1,7 @@
+<div ngbDropdown class="d-inline-block">
+  <button class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>Hello, {{userName}}</button>
+  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+    <button ngbDropdownItem (click)="profileClickHandler()">Profile</button>
+    <button ngbDropdownItem (click)="logoutClickHandler()">Log Out</button>
+  </div>
+</div>

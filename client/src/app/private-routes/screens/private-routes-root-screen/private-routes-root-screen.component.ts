@@ -1,8 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppFacadeService} from "../../services";
 import {Router} from "@angular/router";
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
+import {IUserProfile} from "../../../services/interfaces";
 
 @Component({
   templateUrl: './private-routes-root-screen.component.html',
@@ -10,6 +11,7 @@ import {takeUntil} from "rxjs/operators";
 })
 export class PrivateRoutesRootScreenComponent implements OnInit, OnDestroy {
 
+  public user$: Observable<IUserProfile | undefined> = this.appFacadeProvider.userProfile;
   // TODO: until destroy should be implemented
   private sbj$ = new Subject<boolean>();
 

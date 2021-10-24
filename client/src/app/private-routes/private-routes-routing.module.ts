@@ -34,6 +34,11 @@ const routes: Routes = [{
       canLoad: [CAN_LOAD_AUTH_GUARD_TOKEN]
     },
     {
+      path: 'profile',
+      loadChildren: () => import('./user-profile/user-profile.module').then(m => m.UserProfileModule),
+      canLoad: [CAN_LOAD_AUTH_GUARD_TOKEN]
+    },
+    {
       path: '',
       redirectTo: 'members',
       pathMatch: 'full'
