@@ -19,11 +19,6 @@ const routes: Routes = [{
       canLoad: [CAN_LOAD_AUTH_GUARD_TOKEN]
     },
     {
-      path: 'member',
-      loadChildren: () => import('./member/member.module').then(m => m.MemberModule),
-      canLoad: [CAN_LOAD_AUTH_GUARD_TOKEN]
-    },
-    {
       path: 'lists',
       loadChildren: () => import('./lists/lists.module').then(m => m.ListsModule),
       canLoad: [CAN_LOAD_AUTH_GUARD_TOKEN]
