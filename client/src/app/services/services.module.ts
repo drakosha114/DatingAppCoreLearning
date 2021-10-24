@@ -33,9 +33,15 @@ import {AuthDataHelperService} from "./auth-data-helper/auth-data-helper.service
 import {
   GlobalCommandFactory,
 } from "./commands";
+import {NOTIFICATIONS_SERVICE_TOKEN, NotificationsService} from "./notifications";
+import {ToastrService} from "ngx-toastr";
 
 @NgModule()
 export class ServicesModule {
+  static injector: Injector;
+  constructor(injector: Injector) {
+    ServicesModule.injector = injector;
+  }
   public static forRoot(): ModuleWithProviders<ServicesModule> {
     return {
       ngModule: ServicesModule,
@@ -73,6 +79,10 @@ export class ServicesModule {
         { provide: AUTH_CHILD_GUARD_TOKEN, useFactory: guardsFactory, deps: [CAN_ACTIVATE_CHILD_TYPE_TOKEN, AUTH_GUARD_CHECK_TOKEN, AUTH_GUARD_CHECK_HANDLER_TOKEN]},
         { provide: NOT_AUTH_CHILD_GUARD_TOKEN, useFactory: guardsFactory, deps: [CAN_ACTIVATE_CHILD_TYPE_TOKEN, NOT_AUTH_GUARD_CHECK_TOKEN, NOT_AUTH_GUARD_CHECK_HANDLER_TOKEN]},
         { provide: CAN_LOAD_AUTH_GUARD_TOKEN, useFactory: guardsFactory, deps: [CAN_LOAD_TYPE_TOKEN, AUTH_GUARD_CHECK_TOKEN, AUTH_GUARD_CHECK_HANDLER_TOKEN]},
+
+        // Notifications
+
+        { provide: NOTIFICATIONS_SERVICE_TOKEN, useClass: NotificationsService, deps: [ ToastrService ]}
       ]
     };
   }

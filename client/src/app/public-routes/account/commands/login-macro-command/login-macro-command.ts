@@ -1,8 +1,8 @@
 import {IExecutableCommand} from "../../../../global";
 import {IAuthEntity} from "../../../../services/state/auth-state/interfaces/i-auth-entity";
-import {Observable, of, Subject} from "rxjs";
-import {IAccountResponse, ILoginPayload} from "../../../../services/interfaces";
-import {map, switchMap, takeUntil} from "rxjs/operators";
+import {Observable, Subject} from "rxjs";
+import {ILoginPayload} from "../../../../services/interfaces";
+import {switchMap, takeUntil} from "rxjs/operators";
 
 export class LoginMacroCommand implements IExecutableCommand<IAuthEntity>{
   private sbj$ = new Subject();

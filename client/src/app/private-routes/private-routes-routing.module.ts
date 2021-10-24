@@ -19,11 +19,6 @@ const routes: Routes = [{
       canLoad: [CAN_LOAD_AUTH_GUARD_TOKEN]
     },
     {
-      path: 'member',
-      loadChildren: () => import('./member/member.module').then(m => m.MemberModule),
-      canLoad: [CAN_LOAD_AUTH_GUARD_TOKEN]
-    },
-    {
       path: 'lists',
       loadChildren: () => import('./lists/lists.module').then(m => m.ListsModule),
       canLoad: [CAN_LOAD_AUTH_GUARD_TOKEN]
@@ -31,6 +26,11 @@ const routes: Routes = [{
     {
       path: 'admin',
       loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+      canLoad: [CAN_LOAD_AUTH_GUARD_TOKEN]
+    },
+    {
+      path: 'profile',
+      loadChildren: () => import('./user-profile/user-profile.module').then(m => m.UserProfileModule),
       canLoad: [CAN_LOAD_AUTH_GUARD_TOKEN]
     },
     {
