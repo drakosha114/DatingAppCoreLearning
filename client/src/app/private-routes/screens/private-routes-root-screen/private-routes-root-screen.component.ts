@@ -17,7 +17,7 @@ export class PrivateRoutesRootScreenComponent implements OnInit {
   }
 
   public logoutClickHandler(): void {
-    this.appFacadeProvider.logout(() => this.redirectToPublicRoute());
+    this.appFacadeProvider.logout().subscribe(() => this.redirectToPublicRoute());
   }
 
   private redirectToPublicRoute(): void {
