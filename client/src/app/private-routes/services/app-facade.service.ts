@@ -5,6 +5,7 @@ import {IGlobalCommandsFactories} from "../../services/commands";
 import {IStoreBase} from "../../global";
 import {IAuthEntity} from "../../services/state/auth-state/interfaces/i-auth-entity";
 import {map} from "rxjs/operators";
+import {observableProgressNotification} from "../../shared";
 
 export class AppFacadeService implements IAppFacade {
 
@@ -17,11 +18,10 @@ export class AppFacadeService implements IAppFacade {
     private readonly globalCommandsFactoriesProvider: IGlobalCommandsFactories
   ) { }
 
-  logout(onSuccessCallback: () => void) {
+  @observableProgressNotification<boolean>({title: 'Account action', message: 'Log out succeed!'})
+  logout(): Observable<boolean> {
     const logoutCommand = this.globalCommandsFactoriesProvider.logoutCommandFactory();
-    this.authStoreProvider.logout(logoutCommand).subscribe(() => {
-      onSuccessCallback();
-    });
+    return this.authStoreProvider.logout(logoutCommand);
   }
 
 }

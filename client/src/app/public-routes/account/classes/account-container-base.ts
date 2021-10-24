@@ -7,12 +7,15 @@ import {
   AccountCommandsFactories,
   IAccountCommandsFactory,
 } from "../commands";
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {IAuthEntity} from "../../../services/state/auth-state/interfaces/i-auth-entity";
-import {filter, map} from "rxjs/operators";
+import {filter, map, takeUntil} from "rxjs/operators";
 
 @Directive()
 export class AccountContainerBase implements OnDestroy {
+
+  // TODO: until destroy functionality
+  private sbg$ = new Subject<boolean>();
 
   private readonly accountFacade: IAccountFacade = this.injector.get(AccountFacadeService);
   private readonly accountCommandsFactory: IAccountCommandsFactory = this.injector.get(AccountCommandsFactories);
@@ -32,18 +35,20 @@ export class AccountContainerBase implements OnDestroy {
 
   ngOnDestroy(): void {
     this.accountFacade.reset();
+    this.sbg$.next(true);
+    this.sbg$.complete();
   }
 
   protected login(loginModel: ILoginPayload, onSuccessCallback: () => void): void {
     const loginCommand = this.accountCommandsFactory.loginMacroCommandFactory();
-    this.accountFacade.login(loginModel, loginCommand).subscribe(_ => {
+    this.accountFacade.login(loginModel, loginCommand).pipe(takeUntil(this.sbg$)).subscribe(_ => {
       onSuccessCallback();
     });
   }
 
   protected register(registerModel: IRegisterPayload, onSuccessCallback: () => void): void {
     const registerCommand = this.accountCommandsFactory.registerMacroCommandFactory();
-    this.accountFacade.register(registerModel, registerCommand).subscribe(_ => {
+    this.accountFacade.register(registerModel, registerCommand).pipe(takeUntil(this.sbg$)).subscribe(_ => {
       onSuccessCallback();
     });
   }

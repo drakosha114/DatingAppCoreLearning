@@ -3,8 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {SharedModule} from "./shared/shared.module";
+import {SharedModule} from "./shared";
 import {ServicesModule} from "./services/services.module";
+import {ToastrModule} from "ngx-toastr";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -12,9 +14,13 @@ import {ServicesModule} from "./services/services.module";
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     SharedModule,
     ServicesModule.forRoot(),
+    ToastrModule.forRoot({
+
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
