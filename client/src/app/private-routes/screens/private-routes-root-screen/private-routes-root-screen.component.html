@@ -4,7 +4,7 @@
       <div bExContainer bExContainerType="xl">
         <a class="navbar-brand" routerLink="/">Dating App</a>
         <div class="d-flex">
-          <button class="btn btn-light" type="submit" (click)="logoutClickHandler()">LogOut</button>
+          <app-user-menu [user]="user$ | async" (logOut)="logoutClickHandler()"></app-user-menu>
         </div>
       </div>
     </nav>

@@ -9,11 +9,15 @@ import { PageNotFoundScreenComponent } from './screens/page-not-found-screen/pag
 import {AppFacadeService} from "./services";
 import {AuthState} from "../services/state";
 import {GlobalCommandFactory} from "../services/commands";
+import { MainMenuComponent } from './components/main-menu/main-menu.component';
+import { UserMenuComponent } from './components/user-menu/user-menu.component';
 
 @NgModule({
   declarations: [
     PrivateRoutesRootScreenComponent,
-    PageNotFoundScreenComponent
+    PageNotFoundScreenComponent,
+    MainMenuComponent,
+    UserMenuComponent
   ],
   imports: [
     CommonModule,

@@ -6,10 +6,11 @@ import {IStoreBase} from "../../global";
 import {IAuthEntity} from "../../services/state/auth-state/interfaces/i-auth-entity";
 import {map} from "rxjs/operators";
 import {observableProgressNotification} from "../../shared";
+import {IUserProfile} from "../../services/interfaces";
 
 export class AppFacadeService implements IAppFacade {
 
-  readonly userProfile: Observable<any> = this.authStoreProvider.getState.pipe(
+  readonly userProfile: Observable<IUserProfile | undefined> = this.authStoreProvider.getState.pipe(
     map(state => state.data?.user)
   );
 
