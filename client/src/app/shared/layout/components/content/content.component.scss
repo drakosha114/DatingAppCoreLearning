@@ -1,8 +1,7 @@
 :host {
   display: flex;
 
-  .vr {
-    flex: 1 0 100%;
+  main {
+    align-self: stretch;
   }
-
 }
