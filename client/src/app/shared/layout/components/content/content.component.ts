@@ -1,4 +1,4 @@
-import {Component, HostBinding, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, HostBinding, Input, OnInit} from '@angular/core';
 import {Breakpoints} from "../../../types";
 
 @Component({
