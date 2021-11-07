@@ -1,7 +1,6 @@
 /* Importing Bootstrap SCSS file. */
-@import "~bootswatch/dist/darkly/variables";
+@import "~bootswatch/dist/sandstone/variables";
 @import '~bootstrap/scss/bootstrap';
-@import "~bootswatch/dist/darkly/bootswatch";
+@import "~bootswatch/dist/sandstone/bootswatch";
 /* Import NGX Toaster SCSS files*/
 @import '~ngx-toastr/toastr';
-// @import '~ngx-toastr/toastr-bs4-alert';
