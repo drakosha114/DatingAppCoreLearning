@@ -1,10 +1,14 @@
+using System;
+using API.Data;
 using API.Extensions;
 using API.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace API
@@ -20,7 +24,7 @@ namespace API
         public bool ValidateIssuer { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public async void ConfigureServices(IServiceCollection services)
         {
 
             services.AddApplicationServices(_configuration);
@@ -46,7 +50,7 @@ namespace API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
             app.UseMiddleware<ExeptionMiddleware>();
@@ -66,10 +70,27 @@ namespace API
             app.UseAuthentication();
             app.UseAuthorization();
 
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            
+            using var scope = app.ApplicationServices.CreateScope();
+            var services = scope.ServiceProvider;
+
+            try
+            {
+                var context = services.GetRequiredService<DataContext>();
+                await context.Database.MigrateAsync();
+                await Seed.SeedData(context);
+            }
+            catch (Exception ex)
+            {
+                var logger = services.GetService<ILogger<Program>>();
+                logger?.LogError(ex, "An error occured during migration");
+            }
+
         }
     }
 }

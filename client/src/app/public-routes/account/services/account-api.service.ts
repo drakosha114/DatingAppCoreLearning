@@ -12,11 +12,11 @@ export class AccountApiService implements IAccountApi{
   constructor(private httpClient: HttpClient) { }
 
   login(data: ILoginPayload): Observable<IAccountResponse> {
-    return <Observable<IAccountResponse>>this.httpClient.post('https://localhost:44310/api/account/login', data);
+    return <Observable<IAccountResponse>>this.httpClient.post('https://localhost:5001/api/account/login', data);
   }
 
   register(data: IRegisterPayload): Observable<IAccountResponse> {
-    return <Observable<IAccountResponse>>this.httpClient.post('https://localhost:44310/api/account/register', data);
+    return <Observable<IAccountResponse>>this.httpClient.post('https://localhost:5001/api/account/register', data);
   }
 
 }

@@ -54,7 +54,7 @@ namespace API.Controllers
         }
 
         [HttpPost("validation-error")]
-        public ActionResult<RegisterDTO> GetValidationError(RegisterDTO registerData) {
+        public ActionResult<RegisterDto> GetValidationError(RegisterDto registerData) {
 
             return Ok(registerData);
         }
