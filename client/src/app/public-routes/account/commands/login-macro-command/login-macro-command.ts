@@ -28,7 +28,7 @@ export class LoginMacroCommand implements IExecutableCommand<IAuthEntity>{
     this.sbj$.next(true);
     this.sbj$.complete();
     for (const cmd of this.executedCommands) {
-      cmd.execute();
+      cmd.reset();
     }
     this.resetCommand();
 
